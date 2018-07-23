@@ -1,24 +1,28 @@
 import 'babel-polyfill';
 import React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import {render} from 'react-dom';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
 import todoApp from './reducers';
 import App from './components/App';
 
-const persistedState = {
-	todos: [{
-		id: '-1',
-		text: 'welcome back!',
-		completed: false,
-	}],
-};
+import {loadState, saveState} from "./loadState";
+import throttle from 'lodash.throttle';
+
+const persistedState = loadState();
 
 const store = createStore(todoApp, persistedState);
 console.log('store2  - ', store.getState());
+
+store.subscribe(throttle(() => {
+	saveState({
+		todos: store.getState().todos,
+	});
+}, 1000));
+
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
+	<Provider store={store}>
+		<App/>
+	</Provider>,
+	document.getElementById('root')
 );

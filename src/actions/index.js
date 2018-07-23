@@ -1,10 +1,10 @@
-let nextTodoId = 0;
+import {v4} from 'node-uuid';
 
 // old version
 export function addTodo (text) {
 	return {
 		type: 'ADD_TODO',
-		id: (nextTodoId++).toString(),
+		id: v4(),
 		text,
 	};
 }
