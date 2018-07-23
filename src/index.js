@@ -7,7 +7,7 @@ import todoApp from './reducers';
 import App from './components/App';
 
 const store = createStore(todoApp);
-
+console.log('store2  - ', store.getState());
 render(
   <Provider store={store}>
     <App />
